@@ -8,15 +8,12 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
-
 class _HomeState extends State<Home> {
   List<Map<String, String>> datas = [];
-  late int _currentPageIndex; // late initialization
 
   @override
   void initState() {
     super.initState();
-    _currentPageIndex = 0;
     datas = [
       {
         "image" : "assets/images/ara-1.jpg",
@@ -130,10 +127,11 @@ class _HomeState extends State<Home> {
   }
 
   final oCcy = new NumberFormat("#,###", "ko_KR");
-    String calcStringToWon(String priceString) {
+  String calcStringToWon(String priceString) {
 
     return "${oCcy.format(int.parse(priceString))}원";
   }
+
 
   Widget _bodyWidget() {
     return ListView.separated(
@@ -147,8 +145,8 @@ class _HomeState extends State<Home> {
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 child: Image.asset(datas[index]["image"]!, // null safety operator
-                    width: 100,
-                    height: 100
+                  width: 100,
+                  height: 100
                 )
               ),
               // SizedBox(width: 20),
@@ -162,8 +160,8 @@ class _HomeState extends State<Home> {
                     children: [
                       Text(
                         datas[index]["title"]!,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 15),
+                          overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 15),
                       ),
                       SizedBox(height: 5),
                       Text(
@@ -177,25 +175,25 @@ class _HomeState extends State<Home> {
                       ),
                       SizedBox(height: 5),
                       Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset("assets/svg/heart_off.svg",
-                                width: 13,
-                                height: 13
-                              ),
-                              SizedBox(
-                                width: 5
-                              ),
-                              Text(datas[index]["likes"]!,),
-                              // Padding(
-                              //     padding: const EdgeInsets.only(left: 5),
-                              //     child: Text(datas[index]["likes"]!,),
-                              // ),
-                            ],
-                          ),
-                        )
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset("assets/svg/heart_off.svg",
+                              width: 13,
+                              height: 13
+                            ),
+                            SizedBox(
+                              width: 5
+                            ),
+                            Text(datas[index]["likes"]!,),
+                            // Padding(
+                            //     padding: const EdgeInsets.only(left: 5),
+                            //     child: Text(datas[index]["likes"]!,),
+                            // ),
+                          ],
+                        ),
+                      )
                     ],
                   )
                 ),
@@ -206,44 +204,12 @@ class _HomeState extends State<Home> {
       },
       separatorBuilder: (BuildContext _context, int index) {
         return Container(
-            height: 1,
-            color: Color(0xff999999),
+          height: 1,
+          color: Color(0xff999999),
         );
       },
       itemCount: 10,
     );
-  }
-
-  BottomNavigationBarItem _bottomNavigationBarItem(String iconName, String label) {
-    return BottomNavigationBarItem(
-        icon: Padding(
-          padding: const EdgeInsets.only(bottom: 3),
-          child: SvgPicture.asset("assets/svg/${iconName}_off.svg", width: 22,)
-        ),
-        label: label,
-    );
-  }
-  
-  Widget _bottomNavigationBarWidget() {
-      return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        onTap: (int index) {
-          print(index);
-          setState(() {
-            _currentPageIndex = index;
-          });
-        },
-        currentIndex: _currentPageIndex,
-        selectedFontSize: 12,
-        selectedItemColor: Colors.black,  // label 색 추가
-        items: [
-          _bottomNavigationBarItem("home", "홈"),
-          _bottomNavigationBarItem("notes", "동네생활"),
-          _bottomNavigationBarItem("location", "내 근처"),
-          _bottomNavigationBarItem("chat", "채팅"),
-          _bottomNavigationBarItem("user", "나의 당근"),
-        ],
-      );
   }
 
   @override
@@ -251,7 +217,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: _appbarWidget(),
       body: _bodyWidget(),
-      bottomNavigationBar: _bottomNavigationBarWidget(),
     );
   }
 }

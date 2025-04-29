@@ -11,10 +11,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Map<String, String>> datas = [];
+  late int _currentPageIndex; // late initialization
 
   @override
   void initState() {
     super.initState();
+    _currentPageIndex = 0;
     datas = [
       {
         "image" : "assets/images/ara-1.jpg",
@@ -212,12 +214,44 @@ class _HomeState extends State<Home> {
     );
   }
 
+  BottomNavigationBarItem _bottomNavigationBarItem(String iconName, String label) {
+    return BottomNavigationBarItem(
+        icon: Padding(
+          padding: const EdgeInsets.only(bottom: 3),
+          child: SvgPicture.asset("assets/svg/${iconName}_off.svg", width: 22,)
+        ),
+        label: label,
+    );
+  }
+  
+  Widget _bottomNavigationBarWidget() {
+      return BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        onTap: (int index) {
+          print(index);
+          setState(() {
+            _currentPageIndex = index;
+          });
+        },
+        currentIndex: _currentPageIndex,
+        selectedFontSize: 12,
+        selectedItemColor: Colors.black,  // label 색 추가
+        items: [
+          _bottomNavigationBarItem("home", "홈"),
+          _bottomNavigationBarItem("notes", "동네생활"),
+          _bottomNavigationBarItem("location", "내 근처"),
+          _bottomNavigationBarItem("chat", "채팅"),
+          _bottomNavigationBarItem("user", "나의 당근"),
+        ],
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appbarWidget(),
       body: _bodyWidget(),
-      // bottomNavigationBar: Container(),
+      bottomNavigationBar: _bottomNavigationBarWidget(),
     );
   }
 }

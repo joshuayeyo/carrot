@@ -8,12 +8,20 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
+
 class _HomeState extends State<Home> {
   List<Map<String, String>> datas = [];
+  late String currentLocation;
+  final Map<String, String> locationTypeToString = {
+    "banpo1" : "반포 1동",
+    "sinsa" : "신사동",
+    "daechi1" : "대치 1동"
+  };
 
   @override
   void initState() {
     super.initState();
+    currentLocation = "banpo1";
     datas = [
       {
         "image" : "assets/images/ara-1.jpg",
@@ -97,14 +105,40 @@ class _HomeState extends State<Home> {
         onLongPress: () {
           print('long pressed');
         },
-        child: Row(
-          children: [
-            const Text(
-                '반포 1동', style: TextStyle(color: Colors.black)
-            ),
-            const Icon(Icons.arrow_drop_down)
-          ],
-        ),
+        child: PopupMenuButton<String>(
+          offset: Offset(0, 20),  // popup menu 위치 조정
+          shape: ShapeBorder.lerp(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              1
+          ),
+          onSelected: (String where) {
+            print(where);
+            setState(() {
+              currentLocation = where;
+            });
+          },
+          itemBuilder: (BuildContext context) {
+            return [
+              PopupMenuItem(
+                value: "banpo1", child: Text("반포1동"),
+              ),
+              PopupMenuItem(
+                value: "sinsa", child: Text("신사동"),
+              ),
+              PopupMenuItem(
+                value: "daechi1", child: Text("대치동"),
+              ),
+            ];
+          },
+          child: Row(
+            children: [
+              Text(locationTypeToString[currentLocation]!),
+              const Icon(Icons.arrow_drop_down)
+            ],
+          ),
+
+        )
       ),
       elevation: 1,
       actions: [
